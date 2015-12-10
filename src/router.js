@@ -14,4 +14,4 @@ export default Router.extend({
     repos(){
         console.log('repos');
     }
-})
+});

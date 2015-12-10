@@ -1,8 +1,9 @@
 import Router from './router';
-
-window.app={
+import styles from './styles/main.styl';
+window.app = {
     init(){
-
+        this.router = new Router();
+        this.router.history.start();
     }
 };
 
