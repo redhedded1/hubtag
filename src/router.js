@@ -2,7 +2,9 @@
  * Created by lball on 12/8/15.
  */
 
+import app from 'ampersand-app';
 import React from 'react';
+import xhr from 'xhr';
 import qs from 'qs';
 import Router from 'ampersand-router';
 import PublicPage from './pages/public';
@@ -40,5 +42,13 @@ export default Router.extend({
     authCallback(query){
         query = qs.parse(query);
         console.log(query);
+
+        xhr({
+            url: 'https://labelr-github.herokuapp.com/authenticate/' + query.code,
+            json: true
+        }, (err, req, body) => {
+            console.log(body)
+            app.user.token = body.token;
+        })
     }
 });
