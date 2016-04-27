@@ -11,6 +11,7 @@ import PublicPage from './pages/public';
 import ReposPage from './pages/repos';
 import Layout from './layout';
 import RepoDetail from './pages/repo-detail';
+import MessagePage from './pages/message';
 
 // returning a function because this will execute when we require routes
 // need function to execute ***later***
@@ -42,7 +43,8 @@ export default Router.extend({
         'login': 'login',
         'logout': 'logout',
         'repo/:owner/:name': requiresAuth('repoDetail'),
-        'auth/callback?:query': 'authCallback' // ?:query extracts just the query string
+        'auth/callback?:query': 'authCallback', // ?:query extracts just the query string
+        '*fourOhFour':'catchall'
     },
     public(){
         this.renderPage(<PublicPage/>, {layout: false});
@@ -83,9 +85,13 @@ export default Router.extend({
             // window.location would do a full refresh and using the back button would invalidate
             // the token
         });
+        this.renderPage(<MessagePage title="Fetching Your Data" />);
     },
     logout(){
         window.localStorage.clear();
         window.location = '/';
+    },
+    catchall(){
+        this.renderPage(<MessagePage title='Not Found' body='Sorry, nothing here.' />);
     }
 });
