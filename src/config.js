@@ -7,8 +7,8 @@ const config = {
         'clientId': 'f7cc363e5212d928942a'
     },
     'labelr.surge.sh': {
-        'authUrl': '',
-        'clientId': ''
+        'authUrl': 'https://labelr-github-prod.herokuapp.com/authenticate/',
+        'clientId': '398c58a95e9d417a9a02'
     }
 }[window.location.hostname]
 
