@@ -13,6 +13,7 @@ import ReposPage from './pages/repos';
 import Layout from './layout';
 import RepoDetail from './pages/repo-detail';
 import MessagePage from './pages/message';
+import config from './config'
 
 // returning a function because this will execute when we require routes
 // need function to execute ***later***
@@ -61,7 +62,7 @@ export default Router.extend({
     // https://github.com/settings/applications
     login(){
         window.location = 'https://github.com/login/oauth/authorize?' + qs.stringify({
-                client_id: 'f7cc363e5212d928942a',
+                client_id: config.clientId,
                 // window.location.origin is domain and port
                 // dynamic so don't have to change when go to production
                 redirect_uri: window.location.origin + '/auth/callback',
@@ -76,7 +77,7 @@ export default Router.extend({
 
         // xhr just does a get
         xhr({
-            url: 'https://labelr-github.herokuapp.com/authenticate/' + query.code,
+            url: config.authUrl + '/' + query.code,
             json: true
         }, (err, req, body) => {
             console.log('body', body)
