@@ -10,7 +10,8 @@ export default Model.extend(githubAuthMixin, {
     idAttribute: 'name',
     props:{
         name: 'string',
-        color: 'string'
+        color: 'string',
+        showModal: 'boolean'
     },
     session:{
         //put state on model in case we need elsewhere
@@ -32,7 +33,7 @@ export default Model.extend(githubAuthMixin, {
     },
     update(attributes){
         // https://ampersandjs.com/docs/#ampersand-state-getattributes
-        const oldAttributes = this.attributes({props:true, session:false}); // just get props - don't want editing to be set to true if fails with error
+        const oldAttributes = this.getAttributes({props:true, session:false}); // just get props - don't want editing to be set to true if fails with error
         xhr({
             url: this.url(),
             json: attributes,

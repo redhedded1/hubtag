@@ -1,5 +1,7 @@
 @import('yeticss'); /* will still produce a single minified css file on build */
 @import url('https://fonts.googleapis.com/css?family=Francois+One|Fjalla+One');
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css');
+
 body
   font: 18px/1.6 'Fjalla One'
 
@@ -21,6 +23,13 @@ header
     margin-left: 10px
     margin-right: 10px
 
+  > span.octicon
+    color:darkblue !important
+    font-size:18px
+    float:right
+
+  > span.octicon-x
+    color:darkred !important
 a
   color: rebeccapurple
   text-decoration: none
@@ -31,6 +40,22 @@ ul
   li
     list-style: none
     line-height:1.8
-    span
-      margin-right:5px
-      vertical-align:1px
+
+  .label
+    color: black !important
+    font-size:18px;
+    line-height:1.4
+    margin-bottom:10px
+    display:block
+    text-align:left
+    font-weight:normal
+
+      span.octicon
+        margin-right:5px
+        vertical-align:-1px
+
+.modal-backdrop
+  z-index:0
+
+.modal
+  background:transparent

@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import ampersandMixin from 'ampersand-react-mixin'
+import {Modal, Button, Alert} from 'react-bootstrap'
 
 export default React.createClass({
     mixins: [ampersandMixin],
@@ -19,27 +20,48 @@ export default React.createClass({
             this.setState(this.getInitialState())
         }else{
             label.destroy()
+            this.hideModal()
         }
+    },
+    showModal() {
+        this.setState({showModal: true});
+    },
+
+    hideModal() {
+        this.setState({showModal: false});
     },
     onDeleteClick(event){
         event.preventDefault()
-        if(window.confirm('Are you sure?')){
-            this.props.label.destroy({
-                success: function(){
-                    console.log('successful delete')
-                },
-                error: function(){
-                    console.log('delete FAILED')
-                }
-            })
-        }
+        this.showModal()
+        // if(window.confirm('Are you sure?')){
+        //     this.props.label.destroy({
+        //         success: function(){
+        //             console.log('successful delete')
+        //         },
+        //         error: function(){
+        //             console.log('delete FAILED')
+        //         }
+        //     })
+        // }
         // could also do this to wait until ajax call completes to remove object
         // this.props.label.destroy({wait:true})
     },
-    getInitialState(){
-        const {name, color} = this.props.label //ES6 destructuring
+    destroy(event){
+        event.preventDefault()
 
-        return{name, color}
+        this.props.label.destroy({
+            success: function(){
+                console.log('successful delete')
+            },
+            error: function(){
+                console.log('delete FAILED')
+            }
+        })
+    },
+    getInitialState(){
+        const {name, color, showModal} = this.props.label //ES6 destructuring
+
+        return{name, color, showModal}
     },
     // https://developer.github.com/v3/issues/labels/#update-a-label
     // PATCH /repos/:owner/:repo/labels/:name
@@ -69,7 +91,7 @@ export default React.createClass({
             // if(Object.keys(this.state).length !== 0 &&
             //     JSON.stringify(this.state) !== JSON.stringify({})){
             //     debugger
-            if(label.name && label.color){ // make sure user is not saving empty values
+            if(this.state.name && this.state.color){ // make sure user is not saving empty values
                 label.save(this.state, { // go ahead and pass the saved state to model session.saved
                     success: function(){
                         label.saved = true
@@ -89,9 +111,25 @@ export default React.createClass({
         // const cssColor = '#' + label.color
         const {color} = this.state
         const cssColor = '#' + color
-        let content
+        let content, modal
 
         //debugger
+
+        modal = (
+            <Modal show={this.state.showModal} onHide={this.hideModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Deletion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h4>Are you sure?</h4>
+                    <p>Do you really want to delete this label forever?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={this.hideModal}>Close</Button>
+                    <Button onClick={this.destroy} bsStyle="danger">Delete</Button>
+                </Modal.Footer>
+            </Modal>
+        )
 
         // editing
         if (label.editing) {
@@ -100,8 +138,8 @@ export default React.createClass({
                     <span style={{backgroundColor:cssColor}} className='label-color avatar avatar-small avatar-rounded'>&nbsp;</span>
                     <input name='name' onChange={this.onNameChange} value={this.state.name} />
                     <input name='color' onChange={this.onColorChange} value={cssColor} />
-                    <button type='submit' className='button button-small'>Save</button>
-                    <button onClick={this.onCancelClick} type='button' className='button button-small button-unstyled'>Cancel</button>
+                    <Button type='submit' className='button button-small'>Save</Button>
+                    <Button onClick={this.onCancelClick} type='button' className='button button-small button-unstyled'>Cancel</Button>
                 </form>
             )
         } else {
@@ -118,6 +156,7 @@ export default React.createClass({
         return (
             <div>
                 {content}
+                {modal}
             </div>
         )
     }

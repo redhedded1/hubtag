@@ -4,6 +4,7 @@
 
 import app from 'ampersand-app';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import xhr from 'xhr';
 import qs from 'qs';
 import Router from 'ampersand-router';
@@ -35,7 +36,7 @@ export default Router.extend({
                 </Layout>
             )
         }
-        React.render(page, document.body);
+        ReactDOM.render(page, document.body);
     },
     routes: {
         '': 'public', //as of ES5 we can use reserved words as property names
