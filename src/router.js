@@ -12,6 +12,19 @@ import ReposPage from './pages/repos';
 import Layout from './layout';
 import RepoDetail from './pages/repo-detail';
 
+// returning a function because this will execute when we require routes
+// need function to execute ***later***
+function requiresAuth(fn){
+    return function(){
+        if(app.user.token){
+            this[fn].apply(this, arguments);
+        }else{
+            this.redirectTo('/');
+            alert("You must login to access GitHub repositories");
+        }
+    }
+}
+
 export default Router.extend({
     renderPage(page, opts = {layout: true}){
         if (opts.layout) {
@@ -25,10 +38,10 @@ export default Router.extend({
     },
     routes: {
         '': 'public', //as of ES5 we can use reserved words as property names
-        'repos': 'repos',
+        'repos': requiresAuth('repos'),
         'login': 'login',
         'logout': 'logout',
-        'repo/:owner/:name': 'repoDetail',
+        'repo/:owner/:name': requiresAuth('repoDetail'),
         'auth/callback?:query': 'authCallback' // ?:query extracts just the query string
     },
     public(){
