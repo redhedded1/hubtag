@@ -39,7 +39,7 @@ export default Router.extend({
     },
     repoDetail(owner, name){
         const model = app.user.repos.getByFullName(owner + '/' + name);
-        this.renderPage(<RepoDetail repo={model}/>);
+        this.renderPage(<RepoDetail repo={model} labels={model.labels} />);
     },
     // https://developer.github.com/v3/oauth/#web-application-flow
     // https://github.com/settings/applications
