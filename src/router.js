@@ -13,17 +13,30 @@ import ReposPage from './pages/repos';
 import Layout from './layout';
 import RepoDetail from './pages/repo-detail';
 import MessagePage from './pages/message';
-import config from './config'
+import config from './config';
+import {Alert} from 'react-bootstrap';
 
 // returning a function because this will execute when we require routes
 // need function to execute ***later***
 function requiresAuth(fn){
-    return function(){
-        if(app.user.token){
+    return function() {
+        if (app.user.token) {
             this[fn].apply(this, arguments);
-        }else{
+        } else {
             this.redirectTo('/');
-            alert("You must login to access GitHub repositories");
+            // alert("You must login to access GitHub repositories");
+            const alertInstance = (
+                <Alert bsStyle="danger">
+                    <p>You <strong>must be logged in</strong> to access GitHub repositories.</p>
+                    <span className="goback" onClick={goBack}>&larr; Login</span>
+                </Alert>
+            );
+            ReactDOM.render(alertInstance, document.body);
+        }
+        function goBack(e) {
+            const defaultLocation = window.location.origin;
+            window.location.href = defaultLocation;
+            window.location.reload();
         }
     }
 }

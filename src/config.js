@@ -3,13 +3,13 @@
  */
 const config = {
     'localhost': {
-        'authUrl': 'https://labelr-github.herokuapp.com/authenticate/',
+        'authUrl': 'https://labelr-github.herokuapp.com/authenticate',
         'clientId': 'f7cc363e5212d928942a'
     },
-    'labelr.surge.sh': {
-        'authUrl': 'https://labelr-github-prod.herokuapp.com/authenticate/',
+    'labelr-lball.surge.sh': {
+        'authUrl': 'https://frozen-bayou-10981.herokuapp.com/authenticate',
         'clientId': '398c58a95e9d417a9a02'
     }
-}[window.location.hostname]
+}[location.hostname]
 
 export default config
